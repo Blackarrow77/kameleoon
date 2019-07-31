@@ -60,13 +60,12 @@ public class MainVerticle extends AbstractVerticle {
       } catch (FirebaseAuthException e) {
         e.printStackTrace();
       }
-      int score = 9;
+
       DocumentReference docRef = db.collection(uid).document(id);
-      ApiFuture<DocumentSnapshot> future = docRef.get();
+      ApiFuture<DocumentSnapshot> futureRead = docRef.get();
       try {
-        DocumentSnapshot document = future.get();
-        Map<String, Object> docData = document.getData();
-        score = (int) docData.get("score");
+        DocumentSnapshot document = futureRead.get();
+        long score = document.getLong("score");
         if(v.equals("up")){
           score++;
         }else{
@@ -75,8 +74,8 @@ public class MainVerticle extends AbstractVerticle {
             response.end("false");
           }
         }
-        score = 2;
         System.out.println(score);
+
         ApiFuture<WriteResult> futureWrite = docRef.update("score", score);
         WriteResult result = futureWrite.get();
         System.out.println("Write result: " + result);
@@ -87,7 +86,7 @@ public class MainVerticle extends AbstractVerticle {
         e.printStackTrace();
         response.end("false");
       } finally {
-        response.end(String.valueOf(score));
+        response.end("true");
       }
   });
 
