@@ -66,7 +66,7 @@ public class MainVerticle extends AbstractVerticle {
       try {
         DocumentSnapshot document = future.get();
         Map<String, Object> docData = document.getData();
-         score = (int) docData.get("score");
+        score = (int) docData.get("score");
         if(v.equals("up")){
           score++;
         }else{
@@ -87,7 +87,7 @@ public class MainVerticle extends AbstractVerticle {
         e.printStackTrace();
         response.end("false");
       } finally {
-        response.end(score);
+        response.end(String.valueOf(score));
       }
   });
 
