@@ -55,7 +55,11 @@ public class MainVerticle extends AbstractVerticle {
         String uid   = decodedToken.getUid();
         ApiFuture<QuerySnapshot> future = db.collection(uid).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-        response.end(Json.encode(documents));
+        ArrayList<Map<String, Object>> quoteList = new ArrayList<Map<String, Object>>();
+        for (QueryDocumentSnapshot document : documents) {
+          quoteList.add(document.getData());
+        }
+        response.end(Json.encode(quoteList));
       } catch (FirebaseAuthException e) {
         e.printStackTrace();
         response.end("false");
