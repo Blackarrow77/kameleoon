@@ -270,7 +270,15 @@
                       var myLineChart = new Chart(ctx, {
                           type: 'line',
                           data: dataTable,
-                          options: options
+                          options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
                       });
                       $("#chart-"+id).slideDown("slow");
                     }
