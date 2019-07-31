@@ -28,9 +28,6 @@
             <a class="nav-link" href="#" onclick="updateList('desc', 10);">Flop 10</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Last</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" id="add" href="#">Add</a>
           </li>
         </ul>
@@ -152,6 +149,7 @@
                         "<a href='#' id='upvote' class='card-link' onclick=\"upVote($(this).parent().find('.id').val())\" >Upvote</a>"+
                         "<a href='#' id='downvote' class='card-link' onclick=\"downVote($(this).parent().find('.id').val())\">Downvote</a><input class='id' value="+
                         data[j].id+" type='hidden'></input></div></div>");
+                        localStorage.setItem('number', i);
                       }
                     }else{
                       for (var i = 0; (i < data.length) && (i < window.limit); i++) {
@@ -163,6 +161,7 @@
                         "<a href='#' id='upvote' class='card-link' onclick=\"upVote($(this).parent().find('.id').val())\" >Upvote</a>"+
                         "<a href='#' id='downvote' class='card-link' onclick=\"downVote($(this).parent().find('.id').val())\">Downvote</a><input class='id' value="+
                         data[i].id+" type='hidden'></input></div></div>");
+                        localStorage.setItem('number', i);
                       }
                     }
                   }else{
@@ -278,7 +277,7 @@
                           data: {
                                 datasets: [{
                                     borderColor: '#0000ff',
-                                    backgroundColor:'#00ffff',
+                                    backgroundColor:'#0000ff',
                                     label: 'Votes',
                                     data: dataTable
                                 }]
@@ -328,8 +327,18 @@
           });
         }
         function showMore(){
+          window.nbr = localStorage.getItem('number')
           window.limit = localStorage.getItem('limit');
-          updateList("null", window.limit+5);
+          if(nbr > limit){
+            updateList("null", window.limit+5);
+          }else{
+            $("#error").text("No more quotes. Add some.")
+            $("#error").show();
+            $("#error").delay( 1200 ).fadeOut( "slow", function() {
+              // Animation complete.
+            });
+          }
+
         }
         function upVote(id){
           updateVote(id,"up");
