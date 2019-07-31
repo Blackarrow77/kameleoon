@@ -237,7 +237,7 @@
 
         function showGraph(id){
           console.log("show graph");
-          if($("#chart-"+id).is(':visible')){
+          if(!$("#chart-"+id).is(':visible')){
             firebase.auth().currentUser.getIdToken().then(function(idToken) {
               $.ajax({
                 type: "POST",
