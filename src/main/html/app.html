@@ -236,7 +236,8 @@
         }
 
         function showGraph(id){
-          if($("#graph-"+id).is(":hidden")){
+          console.log("show graph");
+          if($("#chart-"+id).is(':visible')){
             firebase.auth().currentUser.getIdToken().then(function(idToken) {
               $.ajax({
                 type: "POST",
@@ -265,7 +266,7 @@
                           data: dataTable,
                           options: options
                       });
-                      $("#graph-"+id).slideDown("slow");
+                      $("#chart-"+id).slideDown("slow");
                     }
                 }else{
                     $("#error").text("Error while looking for data.")
@@ -277,11 +278,10 @@
               });
             });
           }else{
-            $("#graph-"+id).slideUp("slow");
+            $("#chart-"+id).slideUp("slow");
           }
         }
-
-        function  updateVote(id, vote){
+        function updateVote(id, vote){
           firebase.auth().currentUser.getIdToken().then(function(idToken) {
             $.ajax({
               type: "POST",
