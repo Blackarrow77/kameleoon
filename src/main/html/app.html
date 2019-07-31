@@ -259,7 +259,7 @@
                         if(i==0){
                           startTime = data[i].time;
                         }else{
-                          time = (data[i].time - startTime)/60;
+                          time = Math.round((data[i].time - startTime)/60);
                         }
                         var point = {};
                         point['x'] = time;
