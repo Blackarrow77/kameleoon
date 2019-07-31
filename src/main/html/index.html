@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <link rel="stylesheet" href="./css/bootstrap.css" >
+
+    <title>Quote App</title>
+  </head>
+  <body style="text-align:center">
+    <header class="bg-light" style="padding:5pt" >
+      <h1>Quote App</h1>
+    </header>
+    </div>
+    <div class="container-fluid" style="padding:5pt">
+      <p>Login to access the quote app.</p>
+      <p id="firebaseui-auth-container" class="lead"></p>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+      <!-- Firebase auth -->
+      <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-auth.js"></script>
+      <!-- Firebase firestore -->
+      <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-firestore.js"></script>
+      <!-- Firebase UI -->
+      <script src="https://cdn.firebase.com/libs/firebaseui/4.1.0/firebaseui.js"></script>
+      <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/4.1.0/firebaseui.css" />
+      <!-- Firebase Localized Widget -->
+      <script src="https://www.gstatic.com/firebasejs/ui/4.1.0/firebase-ui-auth__en.js"></script>
+      <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.1.0/firebase-ui-auth.css" />
+
+    <!-- JavaScript execute -->
+      <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+          apiKey: "AIzaSyDfPHzD1frC9YTjo2qsfrD4L_tXF0ti9Cc",
+          authDomain: "kameleoon.firebaseapp.com",
+          databaseURL: "https://kameleoon.firebaseio.com",
+          projectId: "kameleoon",
+          storageBucket: "",
+          messagingSenderId: "856228328964",
+          appId: "1:856228328964:web:79cb9e279a4716f1"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+      </script>
+      <!-- Firebase Script -->
+      <script type="text/javascript">
+        // FirebaseUI config.
+        var uiConfig = {
+            callbacks: {
+                signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+                console.log('Authentication successful');
+                return true;
+            },
+            uiShown: function() {
+              // The widget is rendered.
+              // Hide the loader.
+              //document.getElementById('loader').style.display = 'none';
+            }
+          },
+          signInFlow: 'popup',
+          signInSuccessUrl: '/app',
+          signInOptions: [
+            // Leave the lines as is for the providers you want to offer your users.
+            //firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+            //firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+            //firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+            //firebase.auth.GithubAuthProvider.PROVIDER_ID,
+            firebase.auth.EmailAuthProvider.PROVIDER_ID,
+            //firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+            //firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
+          ],
+          // tosUrl and privacyPolicyUrl accept either url string or a callback
+          // function.
+          // Terms of service url/callback.
+          tosUrl: '<service-policy-url>',
+          // Privacy policy url/callback.
+          privacyPolicyUrl: function() {
+            window.location.assign('<your-privacy-policy-url>');
+          }
+        };
+
+        // Initialize the FirebaseUI Widget using Firebase.
+        var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+        function initapp(){
+        // The start method will wait until the DOM is loaded.
+          firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+              window.location.replace("/app");
+            } else {
+              if (ui.isPendingRedirect()) {
+
+              }else{
+                ui.start('#firebaseui-auth-container', uiConfig);
+              }
+            }
+          });
+        }
+
+        window.onload = function(){
+          initapp();
+        };
+      </script>
+
+
+  </body>
+</html>
