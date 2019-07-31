@@ -147,7 +147,7 @@
                         $("#left-content").append("<div class='card border-secondary mb-3' style='width=500px'>  <div class='card-body'><h5 class='card-title'>"+
                         data[j].title+"</h5><h6 class='card-subtitle mb-2 text-muted'>Posted by: "+
                         data[j].author+"</h6><p class='card-text'>Current score: "+
-                        data[j].score+"</p><canvas id='chart-"+data[j].id+"' width='400' height='400' style='display=none;'></canvas>"+
+                        data[j].score+"</p><canvas id='chart-"+data[j].id+"' width='400' height='400' style='display:none;'></canvas>"+
                         "<a href='#' id='showgraph' class='card-link'  onclick=\"showGraph($(this).parent().find('.id').val())\" >Show graph</a>"+
                         "<a href='#' id='upvote' class='card-link' onclick=\"upVote($(this).parent().find('.id').val())\" >Upvote</a>"+
                         "<a href='#' id='downvote' class='card-link' onclick=\"downVote($(this).parent().find('.id').val())\">Downvote</a><input class='id' value="+
@@ -158,7 +158,7 @@
                         $("#left-content").append("<div class='card border-secondary mb-3' style='width=500px'>  <div class='card-body'><h5 class='card-title'>"+
                         data[i].title+"</h5><h6 class='card-subtitle mb-2 text-muted'>Posted by: "+
                         data[i].author+"</h6><p class='card-text'>Current score: "+
-                        data[i].score+"</p><canvas id='chart-"+data[i].id+"' width='400' height='400' style='display=none;'></canvas>"+
+                        data[i].score+"</p><canvas id='chart-"+data[i].id+"' width='400' height='400' style='display:none;'></canvas>"+
                         "<a href='#' id='showgraph' class='card-link'  onclick=\"showGraph($(this).parent().find('.id').val())\" >Show graph</a>"+
                         "<a href='#' id='upvote' class='card-link' onclick=\"upVote($(this).parent().find('.id').val())\" >Upvote</a>"+
                         "<a href='#' id='downvote' class='card-link' onclick=\"downVote($(this).parent().find('.id').val())\">Downvote</a><input class='id' value="+
@@ -236,26 +236,49 @@
         }
 
         function showGraph(id){
-          firebase.auth().currentUser.getIdToken().then(function(idToken) {
-            $.ajax({
-              type: "POST",
-              url: "/graph",
-              data: JSON.stringify({ 'idToken': idToken, 'id':id}),
-              processData: false,
-              contentType: "application/json; charset=utf-8",
-              dataType: "json"
-            }).done(function( data ) {
-              if(data){
-
-              }else{
-                  $("#error").text("Error while looking for data.")
-                  $("#error").show();
-                  $("#error").delay( 1800 ).fadeOut( "slow", function() {
-                    // Animation complete.
-                  });
-              }
+          if($("#graph-"+id).is(":hidden")){
+            firebase.auth().currentUser.getIdToken().then(function(idToken) {
+              $.ajax({
+                type: "POST",
+                url: "/graph",
+                data: JSON.stringify({ 'idToken': idToken, 'id':id}),
+                processData: false,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json"
+              }).done(function( data ) {
+                if(data){
+                    if(data.length>0){
+                      var ctx = document.getElementById('chart-'+id).getContext('2d');
+                      var startTime = 0;
+                      var dataTable = [];
+                      for (var i = 0; (i < data.length) && (i < window.limit); i++) {
+                          var time = 0;
+                          if(i=0){
+                            startTime = data[i].time;
+                          }else{
+                            time = data[i].time - startTime;
+                          }
+                          dataTable.push({x:time, y:data[i].score});
+                      }
+                      var myLineChart = new Chart(ctx, {
+                          type: 'line',
+                          data: dataTable,
+                          options: options
+                      });
+                      $("#graph-"+id).slideDown("slow");
+                    }
+                }else{
+                    $("#error").text("Error while looking for data.")
+                    $("#error").show();
+                    $("#error").delay( 1800 ).fadeOut( "slow", function() {
+                      // Animation complete.
+                    });
+                }
+              });
             });
-          });
+          }else{
+            $("#graph-"+id).slideUp("slow");
+          }
         }
 
         function  updateVote(id, vote){
@@ -285,7 +308,6 @@
             });
           });
         }
-
         function showMore(){
           window.limit = localStorage.getItem('limit');
           updateList("null", window.limit+5);
