@@ -252,7 +252,9 @@
                       var ctx = document.getElementById('chart-'+id).getContext('2d');
                       var startTime = 0;
                       var dataTable = [];
-                      for (var i = 0; (i < data.length) && (i < window.limit); i++) {
+                      console.log(data);
+                      console.log(data.length);
+                      for (var i = 0; i < data.length; i++) {
                           var time = 0;
                           if(i=0){
                             startTime = data[i].time;
