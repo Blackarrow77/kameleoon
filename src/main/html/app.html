@@ -129,9 +129,10 @@
               if(data){
                   if(data.length > 0){
                     $("#left-content").empty();
-                    if(limit != 0){
-                      window.limit = limit;
+                    if(limit > 0){
+                      localStorage.setItem('limit', limit);
                     }
+                    window.limit = localStorage.getItem('limit');
                     for (var i = 0; (i < data.length) && (i < window.limit); i++) {
                       $("#left-content").append("<div class='card border-secondary mb-3' style='width=500px'>  <div class='card-body'><h5 class='card-title'>"+
                       data[i].title+"</h5><h6 class='card-subtitle mb-2 text-muted'>Posted by: "+

@@ -65,6 +65,7 @@ public class MainVerticle extends AbstractVerticle {
         DocumentSnapshot document = future.get();
         Map<String, Object> docData = document.getData();
         int score = (int) docData.get("score");
+        System.out.println(score);
         if(v.equals("up")){
           score++;
         }else{
@@ -73,6 +74,7 @@ public class MainVerticle extends AbstractVerticle {
             response.end("false");
           }
         }
+        System.out.println(score);
         docData.replace("score", score);
         ApiFuture<WriteResult> result = docRef.update(docData);
         System.out.println("Update time : " + result.get().getUpdateTime());
