@@ -277,9 +277,8 @@
                           type: 'scatter',
                           data: {
                                 datasets: [{
-                                  backgroundColor: [
-                                        pattern.draw('circle', '#36a2eb')
-                                    ],
+                                    borderColor: window.chartColors.blue,
+                                    backgroundColor: color(window.chartColors.blue).alpha(0.2).rgbString(),
                                     label: 'Votes',
                                     data: dataTable
                                 }]
