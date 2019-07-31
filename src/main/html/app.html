@@ -255,17 +255,17 @@
                       console.log(data);
                       console.log(data.length);
                       for (var i = 0; i < data.length; i++) {
-                          var time = 0;
-                          if(i=0){
-                            startTime = data[i].time;
-                          }else{
-                            time = data[i].time - startTime;
-                          }
-                          var point = {};
-                          point['x'] = time;
-                          point['y'] = data[i].score;
-                          console.log(point);
-                          dataTable.push(point);
+                        var time = 0;
+                        if(i==0){
+                          startTime = data[i].time;
+                        }else{
+                          time = data[i].time - startTime;
+                        }
+                        var point = {};
+                        point['x'] = time;
+                        point['y'] = data[i].score;
+                        console.log(point);
+                        dataTable.push(point);
                       }
                       var myLineChart = new Chart(ctx, {
                           type: 'line',
