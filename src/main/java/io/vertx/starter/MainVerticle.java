@@ -45,6 +45,49 @@ public class MainVerticle extends AbstractVerticle {
     Router router = Router.router(vertx);
     router.route().handler(BodyHandler.create());
 
+    Route vote = router.route(HttpMethod.POST, "/vote");
+    vote.handler(routingContext -> {
+      HttpServerResponse response = routingContext.response();
+      //Get values
+      String idToken = routingContext.getBodyAsJson().getString("idToken");
+      String id = routingContext.getBodyAsJson().getString("id");
+      String v = routingContext.getBodyAsJson().getString("vote");
+      String uid = null;
+      try {
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
+        uid  = decodedToken.getUid();
+      } catch (FirebaseAuthException e) {
+        e.printStackTrace();
+      }
+      DocumentReference docRef = db.collection(uid).document(id);
+      ApiFuture<DocumentSnapshot> future = docRef.get();
+      try {
+        DocumentSnapshot document = future.get();
+        Map<String, Object> docData = document.getData();
+        int score = (int) docData.get("score");
+        if(v.equals("up")){
+          score++;
+        }else{
+          if(score>0){
+            score--;
+            response.end("false");
+          }
+        }
+        docData.replace("score", score);
+        ApiFuture<WriteResult> result = docRef.update(docData);
+        System.out.println("Update time : " + result.get().getUpdateTime());
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+        response.end("true");
+      } catch (ExecutionException e) {
+        e.printStackTrace();
+        response.end("true");
+      } finally {
+        response.end("true");
+      }
+  });
+
+
     Route list = router.route(HttpMethod.POST, "/list");
     list.handler(routingContext -> {
       HttpServerResponse response = routingContext.response();

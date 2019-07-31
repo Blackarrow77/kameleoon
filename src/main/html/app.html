@@ -136,7 +136,8 @@
                       $("#left-content").append("<div class='card border-secondary mb-3' style='width=500px'>  <div class='card-body'><h5 class='card-title'>"+
                       data[i].title+"</h5><h6 class='card-subtitle mb-2 text-muted'>Posted by: "+
                       data[i].author+"</h6><p class='card-text'>Current score: "+
-                      data[i].score+"</p><a href='#' id='upvote' class='card-link'>Upvote</a><a href='#' id='downvote' class='card-link'>Downvote</a><input class='id' value="+
+                      data[i].score+"</p><a href='#' id='upvote' class='card-link' onclick='upVote($(this).parent().find('.id').val())'>Upvote</a>"+
+                      "<a href='#' id='downvote' class='card-link' onclick='downVote($(this).parent().find('.id').val())'>Downvote</a><input class='id' value="+
                       data[i].id+" type='hidden'></input></div></div>");
                     }
                   }else{
@@ -205,22 +206,39 @@
                 });
                 $("#popover").toggle();
               });
-
-              //Upvote quote
-              $("#upvote").on( "click", function() {
-                console.log("up ");
-                id = $(this).parent().find("#id").val()
-                console.log(id);
-              });
-
-              //Upvote quote
-              $("#downvote").on( "click", function() {
-                console.log("down ");
-                id = $(this).parent().find("#id").val()
-                console.log(id);
-              });
             }
           });
+        }
+
+        function  updateVote(id, vote){
+          firebase.auth().currentUser.getIdToken().then(function(idToken) {
+            $.ajax({
+              type: "POST",
+              url: "/vote",
+              data: JSON.stringify({ 'idToken': idToken, 'id':id, 'vote':vote}),
+              processData: false,
+              contentType: "application/json; charset=utf-8",
+              dataType: "json"
+            }).done(function( data ) {
+              if(data){
+                updateList();
+              }else{
+                  $("#error").text("Error while adding quote.")
+                  $("#error").show();
+                  $("#error").delay( 1800 ).fadeOut( "slow", function() {
+                    // Animation complete.
+                  });
+              }
+            });
+          });
+        }
+
+        function upVote(id){
+          updateVote(id,"up");
+        }
+
+        function downVote(id){
+          updateVote(id,"up");
         }
 
         window.onload = function(){
