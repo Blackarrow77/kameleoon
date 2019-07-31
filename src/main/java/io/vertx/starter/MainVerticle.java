@@ -31,7 +31,7 @@ public class MainVerticle extends AbstractVerticle {
   @Override
   public void start() throws IOException {
 
-    FileInputStream serviceAccount = new FileInputStream("kameleoon-firebase-adminsdk-4zr2m-f2951b9096.json");
+    FileInputStream serviceAccount = new FileInputStream("kameleoon-firebase-adminsdk-4zr2m-99cd7aaa10.json");
     FirebaseOptions options = new FirebaseOptions.Builder()
       .setCredentials(GoogleCredentials.fromStream(serviceAccount))
       .setDatabaseUrl("https://kameleoon.firebaseio.com")

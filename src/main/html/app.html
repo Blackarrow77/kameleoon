@@ -97,19 +97,25 @@
       <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.1.0/firebase-ui-auth.css" />
 
     <!-- JavaScript execute -->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+   https://firebase.google.com/docs/web/setup#config-web-app -->
+
       <script>
-        // Your web app's Firebase configuration
-        var firebaseConfig = {
-          apiKey: "AIzaSyDfPHzD1frC9YTjo2qsfrD4L_tXF0ti9Cc",
-          authDomain: "kameleoon.firebaseapp.com",
-          databaseURL: "https://kameleoon.firebaseio.com",
-          projectId: "kameleoon",
-          storageBucket: "",
-          messagingSenderId: "856228328964",
-          appId: "1:856228328964:web:79cb9e279a4716f1"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyDfPHzD1frC9YTjo2qsfrD4L_tXF0ti9Cc",
+        authDomain: "kameleoon.firebaseapp.com",
+        databaseURL: "https://kameleoon.firebaseio.com",
+        projectId: "kameleoon",
+        storageBucket: "kameleoon.appspot.com",
+        messagingSenderId: "856228328964",
+        appId: "1:856228328964:web:dafdef2afbb8ed3a"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
       </script>
       <!-- Firebase Script -->
       <script type="text/javascript">
@@ -136,7 +142,9 @@
                       $(".col-sm-8").append("<div class='card border-secondary mb-3' style='width=500px'>  <div class='card-body'><h5 class='card-title'>"+
                       data[i].title+"</h5><h6 class='card-subtitle mb-2 text-muted'>Posted by: "+
                       data[i].author+"</h6><p class='card-text'>Current score: "+
-                      data[i].score+"</p><a href='#' id='upvote' class='card-link'>Upvote</a><a href='#' id='downvote' class='card-link'>Downvote</a></div></div>");
+                      data[i].score+"</p><a href='#' id='upvote' value='"+
+                      data[i].id+"' class='card-link'>Upvote</a><a href='#' id='downvote' value='"+
+                      data[i].id+"' class='card-link'>Downvote</a></div></div>");
 
                     }
                   }else{
@@ -204,6 +212,16 @@
                   }
                 });
                 $("#popover").toggle();
+              });
+
+              //Upvote quote
+              $("#upvote").on( "click", function() {
+
+              });
+
+              //Upvote quote
+              $("#downvote").on( "click", function() {
+
               });
             }
           });
