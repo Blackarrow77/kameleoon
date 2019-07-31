@@ -64,7 +64,8 @@
         </div>
       </div>
       <div class="row">
-        <div id="left-content" class="col-sm-6" style="padding:5px"></div>
+        <div  class="col-sm-6" style="padding:5px"><div id="left-content"></div>
+        <button type="button" class="btn btn-primary btn-lg btn-block" onclick="showMore()">Show more</button></div>
         <div class="col-sm-4">
           <div class="card text-white bg-primary mb-3" >
           <div  class="card-header">User information</div>
@@ -132,14 +133,31 @@
                     if(limit > 0){
                       localStorage.setItem('limit', limit);
                     }
+                    if(ascending != "null"){
+                      localStorage.setItem('ascending', ascending);
+                    }
+                    window.ascending = localStorage.getItem('ascending');
                     window.limit = localStorage.getItem('limit');
-                    for (var i = 0; (i < data.length) && (i < window.limit); i++) {
-                      $("#left-content").append("<div class='card border-secondary mb-3' style='width=500px'>  <div class='card-body'><h5 class='card-title'>"+
-                      data[i].title+"</h5><h6 class='card-subtitle mb-2 text-muted'>Posted by: "+
-                      data[i].author+"</h6><p class='card-text'>Current score: "+
-                      data[i].score+"</p><a href='#' id='upvote' class='card-link' onclick=\"upVote($(this).parent().find('.id').val())\" >Upvote</a>"+
-                      "<a href='#' id='downvote' class='card-link' onclick=\"downVote($(this).parent().find('.id').val())\">Downvote</a><input class='id' value="+
-                      data[i].id+" type='hidden'></input></div></div>");
+
+                    if(window.ascending == "asc"){
+                      for (var i = 0; (i < data.length) && (i < window.limit); i++) {
+                        int j = data.length - i;
+                        $("#left-content").append("<div class='card border-secondary mb-3' style='width=500px'>  <div class='card-body'><h5 class='card-title'>"+
+                        data[j].title+"</h5><h6 class='card-subtitle mb-2 text-muted'>Posted by: "+
+                        data[j].author+"</h6><p class='card-text'>Current score: "+
+                        data[j].score+"</p><a href='#' id='upvote' class='card-link' onclick=\"upVote($(this).parent().find('.id').val())\" >Upvote</a>"+
+                        "<a href='#' id='downvote' class='card-link' onclick=\"downVote($(this).parent().find('.id').val())\">Downvote</a><input class='id' value="+
+                        data[j].id+" type='hidden'></input></div></div>");
+                      }
+                    }else{
+                      for (var i = 0; (i < data.length) && (i < window.limit); i++) {
+                        $("#left-content").append("<div class='card border-secondary mb-3' style='width=500px'>  <div class='card-body'><h5 class='card-title'>"+
+                        data[i].title+"</h5><h6 class='card-subtitle mb-2 text-muted'>Posted by: "+
+                        data[i].author+"</h6><p class='card-text'>Current score: "+
+                        data[i].score+"</p><a href='#' id='upvote' class='card-link' onclick=\"upVote($(this).parent().find('.id').val())\" >Upvote</a>"+
+                        "<a href='#' id='downvote' class='card-link' onclick=\"downVote($(this).parent().find('.id').val())\">Downvote</a><input class='id' value="+
+                        data[i].id+" type='hidden'></input></div></div>");
+                      }
                     }
                   }else{
                     // TODO: message no list
@@ -234,11 +252,15 @@
           });
         }
 
+        function showMore(){
+          window.limit = localStorage.getItem('limit');
+          updateList("null", window.limit+5);
+        }
         function upVote(id){
           updateVote(id,"up");
         }
         function downVote(id){
-          updateVote(id,"up");
+          updateVote(id,"down");
         }
 
         window.onload = function(){

@@ -99,7 +99,7 @@ public class MainVerticle extends AbstractVerticle {
       try {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
         String uid   = decodedToken.getUid();
-        ApiFuture<QuerySnapshot> future = db.collection(uid).get();
+        ApiFuture<QuerySnapshot> future = db.collection(uid).orderBy("score", Query.Direction.DESCENDING).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         ArrayList<Map<String, Object>> quoteList = new ArrayList<Map<String, Object>>();
         for (QueryDocumentSnapshot document : documents) {
