@@ -30,6 +30,13 @@
           <li class="nav-item">
             <a class="nav-link" id="add" href="#">Add</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" id="add" href="#" onclick="firebase.auth().signOut().then(function() {
+  // Sign-out successful.
+}).catch(function(error) {
+  // An error happened.
+});">Sign out</a>
+          </li>
         </ul>
       </div>
     </nav>
@@ -311,13 +318,13 @@
             }).done(function( data ) {
               if(data){
                 updateList();
-                  $("#success").text("Successfuly voted.")
+                  $("#success").text("Successfuly voted.");
                   $("#success").show();
                   $("#success").delay( 1800 ).fadeOut( "slow", function() {
                     // Animation complete.
                   });
               }else{
-                  $("#error").text("Error while voting.")
+                  $("#error").text("Error while voting.");
                   $("#error").show();
                   $("#error").delay( 1800 ).fadeOut( "slow", function() {
                     // Animation complete.
@@ -327,12 +334,12 @@
           });
         }
         function showMore(){
-          window.nbr = localStorage.getItem('number')
+          window.nbr = localStorage.getItem('number');
           window.limit = localStorage.getItem('limit');
           if(nbr > limit){
             updateList("null", window.limit+5);
           }else{
-            $("#error").text("No more quotes. Add some.")
+            $("#error").text("No more quotes. Add some.");
             $("#error").show();
             $("#error").delay( 1200 ).fadeOut( "slow", function() {
               // Animation complete.
