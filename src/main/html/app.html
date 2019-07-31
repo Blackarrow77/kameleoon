@@ -125,13 +125,13 @@
               dataType: "json"
             }).done(function( data ) {
               if(data){
-                  window.quoteList = JSON.parse(data);
-                  if(window.quoteList.length > 0){
+                  if(data.length > 0){
                     $(".col-sm-8").empty();
-                    for (var i = 0; i < window.quoteList.length; i++) {
-                      $(".col-sm-8").append("<div class='card' style='width: 18rem;'>  <div class='card-body'><h5 class='card-title'>"
-                      +"Test</h5><h6 class='card-subtitle mb-2 text-muted'>Card subtitle</h6><p class='card-text'>"
-                      +"test</p><a href='#' class='card-link'>Card link</a><a href='#' class='card-link'>Another link</a></div></div>");
+                    for (var i = 0; (i < data.length) && (i < limit); i++) {
+                      $(".col-sm-8").append("<div class='card' style='width: 18rem;'>  <div class='card-body'><h5 class='card-title'>"+
+                      data[i].title+"</h5><h6 class='card-subtitle mb-2 text-muted'>Author: "+
+                      data[i].author+"</h6><p class='card-text'>Current score: "+
+                      data[i].score+"test</p><a href='#' id='upvote' class='card-link'>Upvote</a><a href='#' id='downvote' class='card-link'>Downvote</a></div></div>");
                     }
                   }else{
                     // TODO: message no list
