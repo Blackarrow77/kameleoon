@@ -68,7 +68,7 @@
             }
           },
           signInFlow: 'popup',
-          signInSuccessUrl: '/app',
+          signInSuccessUrl: './app',
           signInOptions: [
             // Leave the lines as is for the providers you want to offer your users.
             //firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -96,7 +96,7 @@
         // The start method will wait until the DOM is loaded.
           firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
-              window.location.replace("/app");
+              window.location.replace("./app");
             } else {
               if (ui.isPendingRedirect()) {
 

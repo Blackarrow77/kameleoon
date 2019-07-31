@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+
+    <title>Quote App</title>
+  </head>
+  <body style="text-align:center">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">Quote App</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarColor03">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Profile</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Top 10</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Flop 10</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Last</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="add" href="#">Add</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    </div>
+    <div class="container-fluid" style="max-width:1140px;">
+      <div id="success" class="modal modal-dialog alert alert-success" role="alert">
+        This is a success alert—check it out!
+      </div>
+      <div id="error" class="modal modal-dialog alert alert-danger" role="alert">
+        This is a danger alert—check it out!
+      </div>
+      <div id="popover" class="modal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" onclick="$('#popover').toggle();" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#popover').toggle();">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-8" style="background-color:#ff0000">col-sm-8</div>
+        <div class="col-sm-4">
+          <div class="card text-white bg-primary mb-3" >
+          <div  class="card-header">User information</div>
+          <div class="card-body">
+            <h4 id="hello-user" class="card-title"></h4>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+      <!-- Firebase auth -->
+      <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-auth.js"></script>
+      <!-- Firebase firestore -->
+      <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-firestore.js"></script>
+      <!-- Firebase UI -->
+      <script src="https://cdn.firebase.com/libs/firebaseui/4.1.0/firebaseui.js"></script>
+      <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/4.1.0/firebaseui.css" />
+      <!-- Firebase Localized Widget -->
+      <script src="https://www.gstatic.com/firebasejs/ui/4.1.0/firebase-ui-auth__en.js"></script>
+      <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.1.0/firebase-ui-auth.css" />
+
+    <!-- JavaScript execute -->
+      <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+          apiKey: "AIzaSyDfPHzD1frC9YTjo2qsfrD4L_tXF0ti9Cc",
+          authDomain: "kameleoon.firebaseapp.com",
+          databaseURL: "https://kameleoon.firebaseio.com",
+          projectId: "kameleoon",
+          storageBucket: "",
+          messagingSenderId: "856228328964",
+          appId: "1:856228328964:web:79cb9e279a4716f1"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+      </script>
+      <!-- Firebase Script -->
+      <script type="text/javascript">
+
+        function initapp(){
+        // The start method will wait until the DOM is loaded.
+          firebase.auth().onAuthStateChanged(function(user) {
+            if (!user) {
+              window.location.replace("./");
+            }else{
+              //Init interface
+              $("#hello-user").text("Hello "+user.displayName+" !");
+
+              //Add quote
+              $("#add").on( "click", function() {
+                $("#popover .modal-title").text("Add Quote");
+                $("#popover .btn-primary").text("Add Quote");
+                $("#popover .modal-body").html("<form><div class='form-group'><label for='quote-title'>Title</label><input type='text' class='form-control' id='quote-title' aria-describedby='Quote title' placeholder='Your quote title'><small id='quotelHelp' class='form-text text-muted'>Insert a title for your quote.</small></div></form>");
+                $("#popover .btn-primary").on( "click", function() {
+                  if($("#quote-title").val().length<3){
+                    $("#quotelHelp").text("Add a title with minimum 3 characters.");
+                    $("#quotelHelp").css({backgroundColor:"#800000"});
+                  }else{
+                    firebase.auth().currentUser.getIdToken().then(function(idToken) {
+                      $.ajax({
+                        type: "POST",
+                        url: "/request",
+                        data: JSON.stringify({ 'idToken': idToken, 'title' : $('#quote-title').val() }),
+                        processData: false,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json"
+                      }).done(function( data ) {
+                        if(data){
+                            $("#success").text("Added quote successfuly.");
+                            $("#success").show();
+                            $("#success").fadeOut( "slow", function() {
+                              // Animation complete.
+                            });
+                        }else{
+                            $("#error").text("Error while adding quote.")
+                            $("#error").show();
+                            $("#error").fadeOut( "slow", function() {
+                              // Animation complete.
+                            });
+                        }
+                      });
+                    });
+                    $("#popover").toggle();
+                  }
+                });
+                $("#popover").toggle();
+              });
+            }
+          });
+        }
+
+        window.onload = function(){
+          initapp();
+        };
+      </script>
+
+
+  </body>
+</html>
