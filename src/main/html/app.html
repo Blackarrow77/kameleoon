@@ -268,14 +268,19 @@
                           maximum = data[i].score+1;
                         }
 
-                        dataTable.push(point);
+                        dataTable.push({x: time,y:data[i].score});
                       }
                       console.log(dataTable);
                       console.log(time);
 
                       window.myLineChart = new Chart(ctx, {
                           type: 'line',
-                          data: dataTable,
+                          data: {
+                                datasets: [{
+                                    label: 'Votes',
+                                    data: dataTable
+                                }]
+                            },
                           options: {
                             animation: {
                                 duration: 0 // general animation time
