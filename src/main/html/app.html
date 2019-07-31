@@ -254,8 +254,6 @@
                       var time = 0;
                       var dataTable = [];
                       var maximum = 0;
-                      console.log(data);
-                      console.log(data.length);
                       for (var i = 0; i < data.length; i++) {
                         if(i==0){
                           startTime = data[i].time;
@@ -268,9 +266,10 @@
                         if(maximum <= data[i].score){
                           maximum = data[i].score+1;
                         }
-                        console.log(point);
+
                         dataTable.push(point);
                       }
+                      console.log(dataTable);
                       var myLineChart = new Chart(ctx, {
                           type: 'line',
                           data: dataTable,
@@ -279,12 +278,14 @@
                                 yAxes: [{
                                     ticks: {
                                         beginAtZero: true,
+                                        maxTicksLimit:100,
                                         max: maximum
                                     }
                                 }],
                                 xAxes: [{
                                     ticks: {
                                         beginAtZero: true,
+                                        maxTicksLimit:100,
                                         max: time
                                     }
                                 }]
