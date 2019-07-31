@@ -18,6 +18,7 @@ import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
 
+import java.io.Console;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -65,7 +66,6 @@ public class MainVerticle extends AbstractVerticle {
         DocumentSnapshot document = future.get();
         Map<String, Object> docData = document.getData();
         int score = (int) docData.get("score");
-        System.out.println(score);
         if(v.equals("up")){
           score++;
         }else{
@@ -74,6 +74,7 @@ public class MainVerticle extends AbstractVerticle {
             response.end("false");
           }
         }
+        score = 2;
         System.out.println(score);
         ApiFuture<WriteResult> futureWrite = docRef.update("score", score);
         WriteResult result = futureWrite.get();
@@ -85,7 +86,7 @@ public class MainVerticle extends AbstractVerticle {
         e.printStackTrace();
         response.end("false");
       } finally {
-        response.end("true final ");
+        response.end("true");
       }
   });
 
