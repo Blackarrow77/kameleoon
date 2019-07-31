@@ -276,6 +276,13 @@
                           type: 'line',
                           data: dataTable,
                           options: {
+                            animation: {
+                                duration: 0 // general animation time
+                            },
+                            hover: {
+                                animationDuration: 0 // duration of animations when hovering an item
+                            },
+                            responsiveAnimationDuration: 0,
                             scales: {
                                 yAxes: [{
                                     ticks: {
@@ -294,7 +301,7 @@
                             }
                         }
                       });
-
+                      myLineChart.update();
                     }
                 }else{
                     $("#error").text("Error while looking for data.")
