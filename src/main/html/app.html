@@ -64,7 +64,7 @@
         </div>
       </div>
       <div class="row">
-        <div id="left-content" class="col-sm-6"></div>
+        <div id="left-content" class="col-sm-6" style="padding:5px"></div>
         <div class="col-sm-4">
           <div class="card text-white bg-primary mb-3" >
           <div  class="card-header">User information</div>
@@ -136,10 +136,8 @@
                       $("#left-content").append("<div class='card border-secondary mb-3' style='width=500px'>  <div class='card-body'><h5 class='card-title'>"+
                       data[i].title+"</h5><h6 class='card-subtitle mb-2 text-muted'>Posted by: "+
                       data[i].author+"</h6><p class='card-text'>Current score: "+
-                      data[i].score+"</p><a href='#' id='upvote' value='"+
-                      data[i].id+"' class='card-link'>Upvote</a><a href='#' id='downvote' value='"+
-                      data[i].id+"' class='card-link'>Downvote</a></div></div>");
-
+                      data[i].score+"</p><a href='#' id='upvote' class='card-link'>Upvote</a><a href='#' id='downvote' class='card-link'>Downvote</a>
+                      <input class='id' value="+data[i].id+" type="hidden"></input></div></div>");
                     }
                   }else{
                     // TODO: message no list
@@ -210,12 +208,16 @@
 
               //Upvote quote
               $("#upvote").on( "click", function() {
-
+                console.log("up ");
+                id = $(this).parent().find("#id").val()
+                console.log(id);
               });
 
               //Upvote quote
               $("#downvote").on( "click", function() {
-
+                console.log("down ");
+                id = $(this).parent().find("#id").val()
+                console.log(id);
               });
             }
           });
