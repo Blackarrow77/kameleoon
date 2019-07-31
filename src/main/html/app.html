@@ -261,7 +261,11 @@
                           }else{
                             time = data[i].time - startTime;
                           }
-                          dataTable.push({x:time, y:data[i].score});
+                          var point = {};
+                          point['x'] = time;
+                          point['y'] = data[i].score;
+                          console.log(point);
+                          dataTable.push(point);
                       }
                       var myLineChart = new Chart(ctx, {
                           type: 'line',
