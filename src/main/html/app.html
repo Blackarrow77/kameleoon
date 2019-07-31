@@ -19,16 +19,16 @@
       <div class="collapse navbar-collapse" id="navbarColor03">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" href="">Profile</a>
+            <a class="nav-link" href="#">Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="" onclick="updateList('asc', 10);">Top 10</a>
+            <a class="nav-link" href="#" onclick="updateList('asc', 10);">Top 10</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="" onclick="updateList('desc', 10);">Flop 10</a>
+            <a class="nav-link" href="#" onclick="updateList('desc', 10);">Flop 10</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">Last</a>
+            <a class="nav-link" href="#">Last</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" id="add" href="#">Add</a>
@@ -147,10 +147,10 @@
                         $("#left-content").append("<div class='card border-secondary mb-3' style='width=500px'>  <div class='card-body'><h5 class='card-title'>"+
                         data[j].title+"</h5><h6 class='card-subtitle mb-2 text-muted'>Posted by: "+
                         data[j].author+"</h6><p class='card-text'>Current score: "+
-                        data[j].score+"</p><canvas id='chart-"+data[j].id+"' width='400' height='400' style='visibility=hidden;'></canvas>"+
-                        "<a href='' id='showgraph' class='card-link'  onclick=\"showGraph($(this).parent().find('.id').val())\" >Show graph</a>"+
-                        "<a href='' id='upvote' class='card-link' onclick=\"upVote($(this).parent().find('.id').val())\" >Upvote</a>"+
-                        "<a href='' id='downvote' class='card-link' onclick=\"downVote($(this).parent().find('.id').val())\">Downvote</a><input class='id' value="+
+                        data[j].score+"</p><canvas id='chart-"+data[j].id+"' width='400' height='400' style='display=none;'></canvas>"+
+                        "<a href='#' id='showgraph' class='card-link'  onclick=\"showGraph($(this).parent().find('.id').val())\" >Show graph</a>"+
+                        "<a href='#' id='upvote' class='card-link' onclick=\"upVote($(this).parent().find('.id').val())\" >Upvote</a>"+
+                        "<a href='#' id='downvote' class='card-link' onclick=\"downVote($(this).parent().find('.id').val())\">Downvote</a><input class='id' value="+
                         data[j].id+" type='hidden'></input></div></div>");
                       }
                     }else{
@@ -158,10 +158,10 @@
                         $("#left-content").append("<div class='card border-secondary mb-3' style='width=500px'>  <div class='card-body'><h5 class='card-title'>"+
                         data[i].title+"</h5><h6 class='card-subtitle mb-2 text-muted'>Posted by: "+
                         data[i].author+"</h6><p class='card-text'>Current score: "+
-                        data[i].score+"</p><canvas id='chart-"+data[i].id+"' width='400' height='400' style='visibility=hidden;'></canvas>"+
-                        "<a href='' id='showgraph' class='card-link'  onclick=\"showGraph($(this).parent().find('.id').val())\" >Show graph</a>"+
-                        "<a href='' id='upvote' class='card-link' onclick=\"upVote($(this).parent().find('.id').val())\" >Upvote</a>"+
-                        "<a href='' id='downvote' class='card-link' onclick=\"downVote($(this).parent().find('.id').val())\">Downvote</a><input class='id' value="+
+                        data[i].score+"</p><canvas id='chart-"+data[i].id+"' width='400' height='400' style='display=none;'></canvas>"+
+                        "<a href='#' id='showgraph' class='card-link'  onclick=\"showGraph($(this).parent().find('.id').val())\" >Show graph</a>"+
+                        "<a href='#' id='upvote' class='card-link' onclick=\"upVote($(this).parent().find('.id').val())\" >Upvote</a>"+
+                        "<a href='#' id='downvote' class='card-link' onclick=\"downVote($(this).parent().find('.id').val())\">Downvote</a><input class='id' value="+
                         data[i].id+" type='hidden'></input></div></div>");
                       }
                     }
