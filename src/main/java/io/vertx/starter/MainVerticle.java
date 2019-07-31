@@ -75,16 +75,17 @@ public class MainVerticle extends AbstractVerticle {
           }
         }
         System.out.println(score);
-        ApiFuture<WriteResult> result = docRef.update("score", score);
-        System.out.println("Update time : " + result.get().getUpdateTime());
+        ApiFuture<WriteResult> futureWrite = docRef.update("score", score);
+        WriteResult result = futureWrite.get();
+        System.out.println("Write result: " + result);
       } catch (InterruptedException e) {
         e.printStackTrace();
-        response.end("true");
+        response.end("false");
       } catch (ExecutionException e) {
         e.printStackTrace();
-        response.end("true");
+        response.end("false");
       } finally {
-        response.end("true");
+        response.end("true final ");
       }
   });
 
