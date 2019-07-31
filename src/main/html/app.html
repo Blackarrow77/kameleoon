@@ -22,10 +22,10 @@
             <a class="nav-link" href="#">Profile</a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="#">Top 10</a>
+            <a class="nav-link" href="#" onclick="updateList('asc', 10);$(this).addClass('active')">Top 10</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Flop 10</a>
+            <a class="nav-link" href="#" onclick="updateList('desc', 10);$(this).removeClass('active')">Flop 10</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Last</a>
@@ -139,7 +139,7 @@
                     window.ascending = localStorage.getItem('ascending');
                     window.limit = localStorage.getItem('limit');
 
-                    if(window.ascending == "asc"){
+                    if(window.ascending == "desc"){
                       for (var i = 0; (i < data.length) && (i < window.limit); i++) {
                         var j = (data.length - 1) - i;
                         $("#left-content").append("<div class='card border-secondary mb-3' style='width=500px'>  <div class='card-body'><h5 class='card-title'>"+
