@@ -32,8 +32,8 @@ public class MainVerticle extends AbstractVerticle {
       response.sendFile("src/main/html/index.html");
     });
 
-    Route app = router.route("/app");
-    app.handler(routingContext -> {
+    Route application = router.route("/app");
+    application.handler(routingContext -> {
       // This handler will be called for every request
       HttpServerResponse response = routingContext.response();
       response.putHeader("content-type", "text/html");
