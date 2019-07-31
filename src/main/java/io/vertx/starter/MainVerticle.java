@@ -75,8 +75,7 @@ public class MainVerticle extends AbstractVerticle {
           }
         }
         System.out.println(score);
-        docData.replace("score", score);
-        ApiFuture<WriteResult> result = docRef.update(docData);
+        ApiFuture<WriteResult> result = docRef.update("score", score);
         System.out.println("Update time : " + result.get().getUpdateTime());
       } catch (InterruptedException e) {
         e.printStackTrace();
