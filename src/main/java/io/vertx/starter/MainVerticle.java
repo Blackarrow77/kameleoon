@@ -2,9 +2,7 @@ package io.vertx.starter;
 
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
+import com.google.cloud.firestore.*;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -15,6 +13,7 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.json.Json;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
@@ -23,9 +22,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.rmi.server.UID;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 
@@ -47,8 +44,36 @@ public class MainVerticle extends AbstractVerticle {
     HttpServer server = vertx.createHttpServer();
     Router router = Router.router(vertx);
     router.route().handler(BodyHandler.create());
-    Route app = router.route(HttpMethod.POST, "/request");
-    app.handler(routingContext -> {
+
+    Route list = router.route(HttpMethod.POST, "/list");
+    list.handler(routingContext -> {
+      HttpServerResponse response = routingContext.response();
+      //Get values
+      String idToken = routingContext.getBodyAsJson().getString("idToken");
+      try {
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
+        String uid   = decodedToken.getUid();
+        ApiFuture<QuerySnapshot> future = db.collection(uid).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        response.end(Json.encode(documents));
+      } catch (FirebaseAuthException e) {
+        e.printStackTrace();
+        response.end("false");
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+        response.end("false");
+      } catch (ExecutionException e) {
+        e.printStackTrace();
+        response.end("false");
+      }
+
+
+      response.end("true");
+    });
+
+
+    Route add = router.route(HttpMethod.POST, "/add");
+    add.handler(routingContext -> {
       HttpServerResponse response = routingContext.response();
       //Get values
       String idToken = routingContext.getBodyAsJson().getString("idToken");

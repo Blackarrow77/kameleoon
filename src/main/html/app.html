@@ -114,6 +114,32 @@
       <!-- Firebase Script -->
       <script type="text/javascript">
 
+        function updateList(ascending){
+          firebase.auth().currentUser.getIdToken().then(function(idToken) {
+            $.ajax({
+              type: "POST",
+              url: "/list",
+              data: JSON.stringify({ 'idToken': idToken}),
+              processData: false,
+              contentType: "application/json; charset=utf-8",
+              dataType: "json"
+            }).done(function( data ) {
+              if(data){
+                  window.data = JSON.parse(data);
+                  console.log(data);
+                  });
+              }else{
+                  $("#error").text("Error while adding quote.")
+                  $("#error").show();
+                  $("#error").delay( 1800 ).fadeOut( "slow", function() {
+                    // Animation complete.
+                  });
+              }
+            });
+          });
+        }
+
+
         function initapp(){
         // The start method will wait until the DOM is loaded.
           firebase.auth().onAuthStateChanged(function(user) {
@@ -122,6 +148,9 @@
             }else{
               //Init interface
               $("#hello-user").text("Hello "+user.displayName+" !");
+                //Show quote as a list
+                  //Get user id token
+
 
               //Add quote
               $("#add").on( "click", function() {
@@ -136,7 +165,7 @@
                     firebase.auth().currentUser.getIdToken().then(function(idToken) {
                       $.ajax({
                         type: "POST",
-                        url: "/request",
+                        url: "/add",
                         data: JSON.stringify({ 'idToken': idToken, 'title' : $('#quote-title').val() }),
                         processData: false,
                         contentType: "application/json; charset=utf-8",
@@ -145,13 +174,13 @@
                         if(data){
                             $("#success").text("Added quote successfuly.");
                             $("#success").show();
-                            $("#success").fadeOut( "slow", function() {
+                            $("#success").delay( 1800 ).fadeOut( "slow", function() {
                               // Animation complete.
                             });
                         }else{
                             $("#error").text("Error while adding quote.")
                             $("#error").show();
-                            $("#error").fadeOut( "slow", function() {
+                            $("#error").delay( 1800 ).fadeOut( "slow", function() {
                               // Animation complete.
                             });
                         }
