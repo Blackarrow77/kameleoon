@@ -102,6 +102,37 @@ public class MainVerticle extends AbstractVerticle {
       }
   });
 
+    Route graph = router.route(HttpMethod.POST, "/graph");
+    graph.handler(routingContext -> {
+      HttpServerResponse response = routingContext.response();
+      //Get values
+      String idToken = routingContext.getBodyAsJson().getString("idToken");
+      String id = routingContext.getBodyAsJson().getString("id");
+      try {
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
+        String uid   = decodedToken.getUid();
+        ApiFuture<QuerySnapshot> future = db.collection(uid).document(id).collection("votes").orderBy("time").get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+        ArrayList<Map<String, Object>> voteList = new ArrayList<Map<String, Object>>();
+        for (QueryDocumentSnapshot document : documents) {
+          voteList.add(document.getData());
+        }
+        response.end(Json.encode(voteList));
+      } catch (FirebaseAuthException e) {
+        e.printStackTrace();
+        response.end("false");
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+        response.end("false");
+      } catch (ExecutionException e) {
+        e.printStackTrace();
+        response.end("false");
+      }
+
+
+      response.end("true");
+    });
 
     Route list = router.route(HttpMethod.POST, "/list");
     list.handler(routingContext -> {
@@ -132,7 +163,6 @@ public class MainVerticle extends AbstractVerticle {
 
       response.end("true");
     });
-
 
     Route add = router.route(HttpMethod.POST, "/add");
     add.handler(routingContext -> {

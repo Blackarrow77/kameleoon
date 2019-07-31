@@ -96,6 +96,8 @@
       <!-- Firebase Localized Widget -->
       <script src="https://www.gstatic.com/firebasejs/ui/4.1.0/firebase-ui-auth__en.js"></script>
       <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.1.0/firebase-ui-auth.css" />
+      <!-- Chart Library -->
+      <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
 
       <script>
       // Your web app's Firebase configuration
@@ -145,8 +147,10 @@
                         $("#left-content").append("<div class='card border-secondary mb-3' style='width=500px'>  <div class='card-body'><h5 class='card-title'>"+
                         data[j].title+"</h5><h6 class='card-subtitle mb-2 text-muted'>Posted by: "+
                         data[j].author+"</h6><p class='card-text'>Current score: "+
-                        data[j].score+"</p><a href='#' id='upvote' class='card-link' onclick=\"upVote($(this).parent().find('.id').val())\" >Upvote</a>"+
-                        "<a href='#' id='downvote' class='card-link' onclick=\"downVote($(this).parent().find('.id').val())\">Downvote</a><input class='id' value="+
+                        data[j].score+"</p><canvas id='chart-"+data[j].id+"' width='400' height='400' style='visibility:hidden;'></canvas>"+
+                        "<a href='' id='showgraph' class='card-link'  onclick=\"showGraph($(this).parent().find('.id').val())\" >Show graph</a>"+
+                        "<a href='' id='upvote' class='card-link' onclick=\"upVote($(this).parent().find('.id').val())\" >Upvote</a>"+
+                        "<a href='' id='downvote' class='card-link' onclick=\"downVote($(this).parent().find('.id').val())\">Downvote</a><input class='id' value="+
                         data[j].id+" type='hidden'></input></div></div>");
                       }
                     }else{
@@ -229,6 +233,29 @@
           });
         }
 
+        function showGraph(id){
+          firebase.auth().currentUser.getIdToken().then(function(idToken) {
+            $.ajax({
+              type: "POST",
+              url: "/graph",
+              data: JSON.stringify({ 'idToken': idToken, 'id':id}),
+              processData: false,
+              contentType: "application/json; charset=utf-8",
+              dataType: "json"
+            }).done(function( data ) {
+              if(data){
+                
+              }else{
+                  $("#error").text("Error while looking for data.")
+                  $("#error").show();
+                  $("#error").delay( 1800 ).fadeOut( "slow", function() {
+                    // Animation complete.
+                  });
+              }
+            });
+          });
+        }
+
         function  updateVote(id, vote){
           firebase.auth().currentUser.getIdToken().then(function(idToken) {
             $.ajax({
@@ -241,8 +268,13 @@
             }).done(function( data ) {
               if(data){
                 updateList();
+                  $("#success").text("Successfuly voted.")
+                  $("#success").show();
+                  $("#success").delay( 1800 ).fadeOut( "slow", function() {
+                    // Animation complete.
+                  });
               }else{
-                  $("#error").text("Error while adding quote.")
+                  $("#error").text("Error while voting.")
                   $("#error").show();
                   $("#error").delay( 1800 ).fadeOut( "slow", function() {
                     // Animation complete.
