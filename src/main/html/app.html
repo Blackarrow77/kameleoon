@@ -253,6 +253,7 @@
                       var startTime = 0;
                       var time = 0;
                       var dataTable = [];
+                      var maximum = 0;
                       console.log(data);
                       console.log(data.length);
                       for (var i = 0; i < data.length; i++) {
@@ -264,6 +265,9 @@
                         var point = {};
                         point['x'] = time;
                         point['y'] = data[i].score;
+                        if(maximum <= data[i].score){
+                          maximum = data[i].score+1;
+                        }
                         console.log(point);
                         dataTable.push(point);
                       }
@@ -274,7 +278,8 @@
                             scales: {
                                 yAxes: [{
                                     ticks: {
-                                        beginAtZero: true
+                                        beginAtZero: true,
+                                        max: maximum
                                     }
                                 }],
                                 xAxes: [{
