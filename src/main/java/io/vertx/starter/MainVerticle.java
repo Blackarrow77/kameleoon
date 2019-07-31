@@ -71,10 +71,22 @@ public class MainVerticle extends AbstractVerticle {
         }else{
           if(score>0){
             score--;
+          }else{
             response.end("false");
           }
         }
         System.out.println(score);
+
+        String vuid = UUID.randomUUID().toString();
+        DocumentReference votesRef = db.collection(uid).document(id).collection("votes").document(vuid);
+        Map<String, Object> data = new HashMap<>();
+        data.put("type", v);
+        data.put("time", System.currentTimeMillis());
+        data.put("score", score);
+        //asynchronously write data
+        ApiFuture<WriteResult> voteWrite = votesRef.set(data);
+        WriteResult voteResult = voteWrite.get();
+        System.out.println("Write vte result: " + voteResult);
 
         ApiFuture<WriteResult> futureWrite = docRef.update("score", score);
         WriteResult result = futureWrite.get();
