@@ -7,8 +7,8 @@ public class MainVerticle extends AbstractVerticle {
   @Override
   public void start() {
     vertx.createHttpServer()
-        .requestHandler(req -> req.response().end("Hello world!"))
-        .listen(8080);
+        .requestHandler(req -> req.response().sendFile("src/main/html/index.html"))
+        .listen(80);
   }
 
 }
