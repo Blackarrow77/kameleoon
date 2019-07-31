@@ -127,7 +127,6 @@
               if(data){
                   window.data = JSON.parse(data);
                   console.log(data);
-                  });
               }else{
                   $("#error").text("Error while adding quote.")
                   $("#error").show();
@@ -149,7 +148,7 @@
               //Init interface
               $("#hello-user").text("Hello "+user.displayName+" !");
                 //Show quote as a list
-                  //Get user id token
+              updateList(true);
 
 
               //Add quote
