@@ -249,6 +249,7 @@
               }).done(function( data ) {
                 if(data){
                     if(data.length>0){
+                      $("#chart-"+id).slideDown("slow");
                       var ctx = document.getElementById('chart-'+id).getContext('2d');
                       var startTime = 0;
                       var time = 0;
@@ -258,7 +259,7 @@
                         if(i==0){
                           startTime = data[i].time;
                         }else{
-                          time = data[i].time - startTime;
+                          time = (data[i].time - startTime)/60;
                         }
                         var point = {};
                         point['x'] = time;
@@ -270,6 +271,7 @@
                         dataTable.push(point);
                       }
                       console.log(dataTable);
+                      console.log(time);
                       var myLineChart = new Chart(ctx, {
                           type: 'line',
                           data: dataTable,
@@ -292,7 +294,7 @@
                             }
                         }
                       });
-                      $("#chart-"+id).slideDown("slow");
+
                     }
                 }else{
                     $("#error").text("Error while looking for data.")
