@@ -60,12 +60,13 @@ public class MainVerticle extends AbstractVerticle {
       } catch (FirebaseAuthException e) {
         e.printStackTrace();
       }
+      int score = 9;
       DocumentReference docRef = db.collection(uid).document(id);
       ApiFuture<DocumentSnapshot> future = docRef.get();
       try {
         DocumentSnapshot document = future.get();
         Map<String, Object> docData = document.getData();
-        int score = (int) docData.get("score");
+         score = (int) docData.get("score");
         if(v.equals("up")){
           score++;
         }else{
@@ -86,7 +87,7 @@ public class MainVerticle extends AbstractVerticle {
         e.printStackTrace();
         response.end("false");
       } finally {
-        response.end("true");
+        response.end(score);
       }
   });
 
