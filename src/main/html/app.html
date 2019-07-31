@@ -114,7 +114,7 @@
       <!-- Firebase Script -->
       <script type="text/javascript">
 
-        function updateList(ascending){
+        function updateList(ascending, limit){
           firebase.auth().currentUser.getIdToken().then(function(idToken) {
             $.ajax({
               type: "POST",
@@ -125,8 +125,17 @@
               dataType: "json"
             }).done(function( data ) {
               if(data){
-                  window.data = JSON.parse(data);
-                  console.log(data);
+                  window.quoteList = JSON.parse(data);
+                  if(window.quoteList.length > 0){
+                    $(".col-sm-8").empty();
+                    for (var i = 0; i < window.quoteList.length; i++) {
+                      $(".col-sm-8").append("<div class='card' style='width: 18rem;'>  <div class='card-body'><h5 class='card-title'>"
+                      +"Test</h5><h6 class='card-subtitle mb-2 text-muted'>Card subtitle</h6><p class='card-text'>"
+                      +"test</p><a href='#' class='card-link'>Card link</a><a href='#' class='card-link'>Another link</a></div></div>");
+                    }
+                  }else{
+                    // TODO: message no list
+                  }
               }else{
                   $("#error").text("Error while adding quote.")
                   $("#error").show();
@@ -148,8 +157,7 @@
               //Init interface
               $("#hello-user").text("Hello "+user.displayName+" !");
                 //Show quote as a list
-              updateList(true);
-
+              updateList(true, 10);
 
               //Add quote
               $("#add").on( "click", function() {
